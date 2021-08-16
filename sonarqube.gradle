@@ -1,0 +1,64 @@
+apply plugin: "org.sonarqube"
+apply plugin: "io.gitlab.arturbosch.detekt"
+
+
+detekt {
+    toolVersion = "1.11.0-RC1"
+    input = files("src/main/java")
+    config = files("$rootDir/config/detekt/detekt.yml")
+    autoCorrect = true
+    reports {
+        xml {
+            enabled = true // Enable/Disable XML report (default: true)
+            destination = file("$buildDir/reports/detekt.xml") // Path where XML report will be stored (default: `build/reports/detekt/detekt.xml`)
+        }
+        html {
+            enabled = true // Enable/Disable HTML report (default: true)
+            destination = file("$buildDir/reports/detekt.html") // Path where HTML report will be stored (default: `build/reports/detekt/detekt.html`)
+        }
+        txt {
+            enabled = true // Enable/Disable TXT report (default: true)
+            destination = file("$buildDir/reports/detekt.txt")  // Path where TXT report will be stored (default: `build/reports/detekt/detekt.txt`)
+        }
+        custom {
+            reportId = "CustomJsonReport"  // The simple class name of your custom report.
+            destination = file("$buildDir/reports/detekt.json") // Path where report will be stored
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "SOUCS"
+        property "sonar.projectKey", "SOUCS"
+        property "sonar.projectVersion", "1.0"
+        property "sonar.exclusions", '**/*Test*/**,' +
+                'robospice/**/*' +
+                'build/**' +
+                '*.json,' +
+                '**/*test*/**,' +
+                '**/.gradle/**,' +
+                '**/R.class'
+
+        property "sonar.host.url", "http://localhost:9000"
+
+        property "sonar.language", "kotlin"
+        property "sonar.sources", "src/main/java"
+        property "sonar.sourceEncoding", "UTF-8"
+        //property "sonar.coverage.exclusions", "src/androidTest/java"
+        property "detekt.sonar.kotlin.config.path", "$rootDir/config/detekt/detekt.yml"
+        property "sonar.issuesReport.html.enable", "true"
+        property "sonar.issuesReport.console.enable", "true"
+        //property "sonar.kotlin.detekt.reportPaths", "$buildDir/reports/detekt.xml"
+
+        property "sonar.android.lint.report", "build/reports/lint-results.xml"
+
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.junit.reportPaths", "**/test-results/**/*.xml"
+        property "sonar.coverage.jacoco.xmlReportPaths", "**/jacocoTestReport/jacocoTestReport.xml"
+        property "sonar.coverage.exclusions", "${coverageExclusions.join(', ')}"
+
+        property "sonar.login", "admin"
+        property "sonar.password", "admin"
+    }
+}

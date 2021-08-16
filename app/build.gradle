@@ -5,9 +5,12 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-android-extensions'
     id 'androidx.navigation.safeargs.kotlin'
+
 }
 
-apply from: 'buildscripts/jacoco.gradle'
+//apply from: 'buildscripts/jacoco.gradle'
+apply from: '../jacoco.gradle'
+apply from: '../sonarqube.gradle'
 
 
 android {

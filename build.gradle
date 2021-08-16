@@ -10,11 +10,10 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"
-        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1"
-
 
         classpath "org.jacoco:org.jacoco.core:$jacocoVersion"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"
+        classpath "io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.17.1"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -26,75 +25,6 @@ buildscript {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
     }
 }
-
-
-plugins {
-    id "org.sonarqube" version "2.7"
-    id("io.gitlab.arturbosch.detekt").version("1.11.0-RC1")
-
-}
-
-detekt {
-    toolVersion = "1.11.0-RC1"
-    input = files("src/main/java")
-    config = files("$rootDir/config/detekt/detekt.yml")
-    autoCorrect = true
-    reports {
-        xml {
-            enabled = true // Enable/Disable XML report (default: true)
-            //destination = file("$buildDir/reports/detekt.xml") // Path where XML report will be stored (default: `build/reports/detekt/detekt.xml`)
-        }
-        html {
-            enabled = true // Enable/Disable HTML report (default: true)
-            //destination = file("$buildDir/reports/detekt.html") // Path where HTML report will be stored (default: `build/reports/detekt/detekt.html`)
-        }
-        txt {
-            enabled = true // Enable/Disable TXT report (default: true)
-            //destination = file("$buildDir/reports/detekt.txt")  // Path where TXT report will be stored (default: `build/reports/detekt/detekt.txt`)
-        }
-        custom {
-            reportId = "CustomJsonReport"  // The simple class name of your custom report.
-            //destination = file("$buildDir/reports/detekt.json") // Path where report will be stored
-        }
-    }
-}
-
-sonarqube {
-    properties {
-        property "sonar.projectName", "SOUCS"
-        property "sonar.projectKey", "SOUCS"
-        property "sonar.projectVersion", "1.0"
-        property "sonar.exclusions", "robospice/**/*"
-        property "sonar.host.url", "http://localhost:9000"
-
-        property "sonar.language", "kotlin"
-        property "sonar.sources", "src/main/java"
-        property "sonar.sourceEncoding", "UTF-8"
-        property "sonar.coverage.exclusions", "src/androidTest/java"
-        property "detekt.sonar.kotlin.config.path", "$rootDir/config/detekt/detekt.yml"
-        property "sonar.issuesReport.html.enable", "true"
-        property "sonar.issuesReport.console.enable", "true"
-        //property "sonar.kotlin.detekt.reportPaths", "$buildDir/reports/detekt.xml"
-
-        def unit = fileTree(dir: project.projectDir, includes: ['**/*.exec']).files;
-        def ui = fileTree(dir: project.projectDir, includes: ['**/*.ec']).files;
-        unit.addAll(ui);
-        //def files = unit.join(", ");
-        //property "sonar.jacoco.reportPaths", files
-        property "sonar.jacoco.reportPath","build/jacoco/testDevDebugUnitTest.exec"
-        property "sonar.java.coveragePlugin", "jacoco"
-        property "sonar.junit.reportsPath", "build/test-results/testDebugUnitTest"
-        property "sonar.android.lint.report", "build/reports/lint-results.xml"
-
-        //def files = fileTree("${buildDir}/outputs/code-coverage/connected/flavors/DEV/").filter { it.isFile() }.files.name
-        //instrumentationFileName = "${buildDir}/outputs/code-coverage/connected/flavors/DEV/" + files[0];
-        //property "sonar.jacoco.itReportPath", instrumentationFileName
-
-        property "sonar.login", "admin"
-        property "sonar.password", "admin"
-    }
-}
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir

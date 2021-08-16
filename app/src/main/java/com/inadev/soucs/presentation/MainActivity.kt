@@ -1,4 +1,4 @@
-package com.inadev.soucs
+package com.inadev.soucs.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
