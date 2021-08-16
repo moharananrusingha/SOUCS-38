@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SOUCS</string>
+
+    <string name="hello">Hello</string>
+    <string name="click_me">Click Me</string>
+    <string name="do_not_click_me">Do not Click Me!</string>
 </resources>
