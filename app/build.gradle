@@ -64,7 +64,9 @@ android {
         viewBinding true
     }
 }
-
+hilt {
+    enableExperimentalClasspathAggregation = true
+}
 
 dependencies {
 
