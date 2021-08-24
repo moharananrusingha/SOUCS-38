@@ -2,6 +2,7 @@ package com.inadev.soucs
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.core.app.launchActivity
+import com.inadev.soucs.presentation.splash.SplashActivity
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -9,6 +10,6 @@ import org.junit.runner.RunWith
 class MainActivityTest {
     @Test
     fun testActivity() {
-        launchActivity<MainActivity>()
+        launchActivity<SplashActivity>()
     }
 }
